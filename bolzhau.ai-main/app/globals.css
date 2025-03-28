@@ -1,0 +1,232 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+  --primary: #4294e3;
+  --secondary: #8f12fd;
+  --light: #f0f6ff;
+  --dark: #262b47;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+/*** Gradient Text & BG ***/
+.text-primary-gradient {
+  background: linear-gradient(to bottom right, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-secondary-gradient {
+  background: linear-gradient(to bottom right, var(--secondary), var(--primary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.bg-primary-gradient {
+  background: linear-gradient(to bottom right, var(--primary), var(--secondary));
+}
+
+.bg-secondary-gradient {
+  background: linear-gradient(to bottom right, var(--secondary), var(--primary));
+}
+
+/* .bg-light {
+    background-color: #F0F6FF !important;
+} */
+/* body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+} */
+
+body {
+  background-color: #ffffff;
+  color: #333;
+  font-family: "Roboto Condensed", serif;
+}
+
+header a,
+header h2,
+header h3,
+header h4,
+header h5,
+header h6 {
+  font-family: "Roboto Condensed", serif;
+}
+
+/* Neuromorphic design shadows */
+.shadow-neuromorphic {
+  box-shadow: 8px 8px 16px #d1d9e6, -8px -8px 16px #ffffff;
+}
+
+.scrollbar {
+  height: 300px;
+  width: 50%;
+  overflow: auto;
+  padding: 0 10px;
+}
+
+/*       ScrollBar       */
+#scrollbar::-webkit-scrollbar {
+  width: 16px;
+}
+
+#scrollbar::-webkit-scrollbar-track {
+  border-radius: 8px;
+  background-color: #e7e7e7;
+  border: 1px solid #cacaca;
+}
+
+#scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+  background-color: #424242;
+}
+
+/*** Hero Header ***/
+.hero-header {
+  margin-bottom: 6rem;
+  padding: 16rem 0 0 0;
+  background:
+     url(../public/images/bg.png),
+    linear-gradient(to bottom right, var(--primary), var(--secondary));
+  background-position:center bottom;
+  background-repeat: no-repeat;
+}
+
+
+/*** Feature ***/
+.feature-item {
+  transition: .5s;
+}
+
+.feature-item:hover {
+  margin-top: -15px;
+  box-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, .08);
+}
+
+/* Our Team */
+
+body {
+  color: #212529;
+}
+
+#container {
+  width: auto;
+  height: auto;
+  margin-top: 120px;
+  -webkit-perspective: 800px;
+  perspective: 800px;
+  text-align: center;
+}
+
+#container h1 {
+  color: #343a40;
+  margin-bottom: 30px;
+}
+
+#container > hr {
+  border: none;
+  border: 1px solid #ccc;
+  width: 80%;
+}
+
+.card {
+  margin: 10px;
+  display: inline-block;
+  position: relative;
+  width: 220px;
+  height: 260px;
+
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  perspective: 1000px;
+}
+
+.front,
+.back {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  backface-visibility: hidden;
+  transition: transform 300ms linear;
+  border-radius: 8px;
+}
+
+.front {
+  transform: rotateY(0deg);
+  text-align: center;
+  background:white;
+  padding: 30px;
+}
+
+.back {
+  background: #ffffff;
+  transform: rotateY(180deg);
+  padding: 40px 15px;
+  color: #212529;
+}
+
+.card:hover .front {
+  transform: rotateY(-180deg);
+}
+
+.card:hover .back {
+  transform: rotateY(0deg);
+}
+
+.front .contact {
+  height: 120px;
+  width: 120px;
+  border: 5px solid #ced4da;
+  border-radius: 50%;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.front .name {
+  display: inline-block;
+  font-size: 18px;
+  color: #212529;
+}
+
+.front .job {
+  color: #ffffff;
+}
+
+.front hr {
+  border: none;
+  color: #ffffff;
+  border: 1px solid;
+}
+
+.back .icon {
+  fill: currentColor;
+  color: inherit;
+  height: 33px;
+  width: 33px;
+  margin-top: 15px;
+  color: #212529;
+}
+
+.back .icon:hover {
+  cursor: pointer;
+  color: #ffffff;
+}
+
