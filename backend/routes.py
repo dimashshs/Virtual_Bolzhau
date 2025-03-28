@@ -11,7 +11,7 @@ class PredictionRequest(BaseModel):
 BIGRAM_MODEL = load_bigram_model()
 TRIGRAM_MODEL = load_trigram_model()
 
-@router.post("/predict/bigram/")
+@router.post("/bigram/")
 async def predict_bigram(request: PredictionRequest):
     text = request.text.strip().lower()
     if not text:
@@ -32,7 +32,7 @@ async def predict_bigram(request: PredictionRequest):
     return {"input": text, "predictions": predicted_words}
 
 
-@router.post("/predict/trigram/")
+@router.post("/trigram/")
 async def predict_trigram(request: PredictionRequest):
     text = request.text.strip().lower()
     if not text:
