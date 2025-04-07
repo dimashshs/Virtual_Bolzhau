@@ -5,7 +5,7 @@ from functools import lru_cache
 BIGRAM_MODEL = None
 TRIGRAM_MODEL = None
 
-def load_bigram_model(model_path="models/bi_gram_model.pkl"):
+def load_bigram_model(model_path="./models/bi_gram_model.pkl"):
     global BIGRAM_MODEL
     if BIGRAM_MODEL is not None:
         return BIGRAM_MODEL  # Уже загружено
