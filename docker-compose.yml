@@ -2,19 +2,16 @@ version: "3.9"
 
 networks:
   dev:
-  
-volumes:
-  nginx-conf: {}
 
 services:
   nginx:
     image: nginx:latest
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     container_name: nginx
     restart: always
     ports:
-      - "8080:80"
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
     depends_on:
       - nextjs
       - fastapi
@@ -25,8 +22,6 @@ services:
     build: ./bolzhau.ai-main
     container_name: nextjs
     restart: always
-    ports:
-      - "3000:3000"
     environment:
       - NODE_ENV=production
     networks:
