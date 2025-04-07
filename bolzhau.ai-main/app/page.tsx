@@ -69,7 +69,7 @@ const MainPage = () => {
     setTextInput((prev) => (prev.endsWith(" ") ? prev + prediction : prev + " " + prediction));
     getPredictions(textInput + " " + prediction);
   };
-
+  
   return (
     <div className="w-screen min-h-screen">
       <div className="absolute inset-0 w-full min-h-screen h-auto hero-header "></div>
