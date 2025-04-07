@@ -32,6 +32,6 @@ services:
     container_name: fastapi
     restart: always
     ports:
-      - "8000:8000"
+      - "2423:8000"
     networks:
       - dev
