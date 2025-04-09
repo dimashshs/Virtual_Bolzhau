@@ -1,23 +1,17 @@
+image: docker:latest
+
+services:
+  - docker:dind
+
 stages:
-  - build
-  - test
   - deploy
 
-variables:
-  DOCKER_DRIVER: overlay2
-
-# Docker
-build-job:
-  stage: build
-  script:
-    - docker-compose -f docker-compose.yml build
-
-test-job:
-  stage: test
-  script:
-    - docker-compose -f docker-compose.yml run --rm fastapi pytest
-
-deploy:
+deploy_virtual:
   stage: deploy
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "virtual"'   # Только ветка virtual
   script:
-    - docker-compose up -d'
+    - docker info
+    - docker-compose --version
+    - docker-compose down || true
+    - docker-compose up -d --build
