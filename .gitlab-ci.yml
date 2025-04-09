@@ -1,8 +1,3 @@
-image: docker:latest
-
-services:
-  - docker:dind
-
 stages:
   - build
   - test
@@ -10,26 +5,29 @@ stages:
 
 variables:
   DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: "/certs"
 
+# Используем Docker-in-Docker (dind) для работы с Docker Compose
+services:
+  - docker:19.03.12-dind
+
+# Docker image, используемый для выполнения команд
+image: docker:latest
+
+# Сборка контейнеров с помощью docker-compose
 build-job:
   stage: build
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
   script:
     - docker-compose -f docker-compose.yml build
 
+# Тестирование FastAPI
 test-job:
   stage: test
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
   script:
-    - docker-compose -f docker-compose.yml up -d fastapi
-    - docker-compose -f docker-compose.yml exec fastapi pytest
-    - docker-compose -f docker-compose.yml down
+    - docker-compose -f docker-compose.yml run --rm fastapi pytest
 
-deploy:
+# Деплой
+deploy-job:
   stage: deploy
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
   script:
     - docker-compose -f docker-compose.yml up -d
