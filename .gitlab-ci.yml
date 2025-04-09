@@ -14,14 +14,14 @@ variables:
 build-job:
   stage: build
   rules:
-    - if: '$CI_COMMIT_BRANCH == "virtual"'
+    - if: '$CI_COMMIT_BRANCH == "main"'
   script:
     - docker-compose -f docker-compose.yml build
 
 test-job:
   stage: test
   rules:
-    - if: '$CI_COMMIT_BRANCH == "virtual"'
+    - if: '$CI_COMMIT_BRANCH == "main"'
   script:
     - docker-compose -f docker-compose.yml up -d fastapi
     - docker-compose -f docker-compose.yml exec fastapi pytest
@@ -30,6 +30,6 @@ test-job:
 deploy:
   stage: deploy
   rules:
-    - if: '$CI_COMMIT_BRANCH == "virtual"'
+    - if: '$CI_COMMIT_BRANCH == "main"'
   script:
     - docker-compose -f docker-compose.yml up -d
