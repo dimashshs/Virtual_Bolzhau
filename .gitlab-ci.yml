@@ -4,14 +4,32 @@ services:
   - docker:dind
 
 stages:
+  - build
+  - test
   - deploy
 
-deploy_virtual:
+variables:
+  DOCKER_DRIVER: overlay2
+
+build-job:
+  stage: build
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "virtual"'
+  script:
+    - docker-compose -f docker-compose.yml build
+
+test-job:
+  stage: test
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "virtual"'
+  script:
+    - docker-compose -f docker-compose.yml up -d fastapi
+    - docker-compose -f docker-compose.yml exec fastapi pytest
+    - docker-compose -f docker-compose.yml down
+
+deploy:
   stage: deploy
   rules:
-    - if: '$CI_COMMIT_BRANCH == "virtual"'   # Только ветка virtual
+    - if: '$CI_COMMIT_BRANCH == "virtual"'
   script:
-    - docker info
-    - docker-compose --version
-    - docker-compose down || true
-    - docker-compose up -d --build
+    - docker-compose -f docker-compose.yml up -d
