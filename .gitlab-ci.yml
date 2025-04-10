@@ -23,12 +23,12 @@ build-job:
 test-backend-job:
   stage: test
   script:
-    - docker-compose -f docker-compose.yml run --rm fastapi pytest
+    - docker-compose -f docker-compose.yml run --rm fastapi pytest -s -v
 
 test-frontend-job:
   stage: test
   script:
-    - docker-compose -f docker-compose.yml run --rm frontend npm test
+    - docker-compose -f docker-compose.yml run --rm frontend npm test -s -v
 
 deploy-job:
   stage: deploy
