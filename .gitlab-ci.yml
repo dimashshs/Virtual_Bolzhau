@@ -7,7 +7,7 @@ variables:
   DOCKER_DRIVER: overlay2
   DOCKER_TLS_CERTDIR: "/certs"
 
-# Используем Docker-in-Docker (dind) для работы с Docker Compose
+# Docker-in-Docker (dind) для работы с Docker Compose
 services:
   - docker:19.03.12-dind
 
@@ -20,13 +20,16 @@ build-job:
   script:
     - docker-compose -f docker-compose.yml build
 
-# Тестирование FastAPI
-test-job:
+test-backend-job:
   stage: test
   script:
     - docker-compose -f docker-compose.yml run --rm fastapi pytest
 
-# Деплой
+test-frontend-job:
+  stage: test
+  script:
+    - docker-compose -f docker-compose.yml run --rm frontend npm test
+
 deploy-job:
   stage: deploy
   script:
