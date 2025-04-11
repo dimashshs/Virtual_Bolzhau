@@ -56,7 +56,7 @@
 body {
   background-color: #ffffff;
   color: #333;
-  font-family: "Roboto Condensed", serif;
+  font-family: "Inter", sans-serif;
 }
 
 header a,
@@ -65,7 +65,7 @@ header h3,
 header h4,
 header h5,
 header h6 {
-  font-family: "Roboto Condensed", serif;
+  font-family: "Inter", sans-serif;
 }
 
 /* Neuromorphic design shadows */
