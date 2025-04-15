@@ -50,8 +50,7 @@ const MainPage = () => {
     }
   };
 
-
- // Обработчик ввода текста
+  // Обработчик ввода текста
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setTextInput(value);
@@ -66,10 +65,12 @@ const MainPage = () => {
 
   // Обработчик выбора предсказания
   const handlePredictionSelect = (prediction: string) => {
-    setTextInput((prev) => (prev.endsWith(" ") ? prev + prediction : prev + " " + prediction));
+    setTextInput((prev) =>
+      prev.endsWith(" ") ? prev + prediction : prev + " " + prediction
+    );
     getPredictions(textInput + " " + prediction);
   };
-  
+
   return (
     <div className="w-screen min-h-screen">
       <div className="absolute inset-0 w-full min-h-screen h-auto hero-header "></div>
@@ -86,7 +87,6 @@ const MainPage = () => {
 
         {/* Flexbox контейнер для моделей */}
         <div className="flex flex-wrap justify-center gap-4">
-
           <div
             className="flex flex-col bg-gray-100 p-4 rounded-lg shadow-md flex-1 min-w-[300px] max-w-md"
             style={{ height: "30rem" }}
@@ -125,17 +125,26 @@ const MainPage = () => {
             </div>
 
             <div className="flex justify-between gap-4">
-             <ul className="flex-1 border-r pr-2 max-h-80 overflow-y-auto" id="scrollbar">
-              {predictionsBigram.map((prediction, index) => (
-                <li
-                  key={index}
-                  className="cursor-pointer hover:bg-gray-200"
-                  onClick={() => handlePredictionSelect(prediction)}
-                >
-                  <span className="text-gray-500">{prediction}</span>
-                </li>
-              ))}
-            </ul>
+              <ul
+                className="flex-1 border-r pr-2 max-h-80 overflow-y-auto"
+                id="scrollbar"
+              >
+                {predictionsBigram.map((prediction, index) => {
+                  const words = textInput.trim().split(/\s+/);
+                  const lastWord = words[words.length - 1] || "";
+
+                  return (
+                    <li
+                      key={index}
+                      className="cursor-pointer hover:bg-gray-200"
+                      onClick={() => handlePredictionSelect(prediction)}
+                    >
+                      <span className="text-black font-medium">{lastWord}</span>{" "}
+                      <span className="text-gray-500">{prediction}</span>
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
             <div className="flex items-center gap-2 mt-auto">
               <h4 className="text-xs text-gray-500">Модель:</h4>
@@ -170,9 +179,7 @@ const MainPage = () => {
                     <li
                       key={index}
                       className="text-black cursor-pointer hover:bg-gray-200"
-                      onClick={() =>
-                        handlePredictionSelect(prediction)
-                      }
+                      onClick={() => handlePredictionSelect(prediction)}
                     >
                       {textInput}{" "}
                       <span className="text-gray-500">{prediction}</span>
@@ -218,7 +225,7 @@ const MainPage = () => {
           </div>
         </div>
         {/* Блок с выбором модели и кнопкой загрузки */}
-      {/* <div className="flex flex-col items-center mt-8 p-4 bg-gray-50 rounded-lg shadow-md w-full max-w-lg mx-auto">
+        {/* <div className="flex flex-col items-center mt-8 p-4 bg-gray-50 rounded-lg shadow-md w-full max-w-lg mx-auto">
         <h4 className="text-sm text-gray-600 mb-2">Выберите модель для скачивания:</h4>
         <select className="w-full p-2 border rounded-md text-sm mb-4">
           <option value="keras">Keras</option>
