@@ -181,7 +181,7 @@ const MainPage = () => {
                       className="text-black cursor-pointer hover:bg-gray-200"
                       onClick={() => handlePredictionSelect(prediction)}
                     >
-                      {textInput.trim().split(/\s+/).slice(-3).join(" ")}{" "}
+                      {textInput.trim().split(/\s+/).slice(-2).join(" ")}{" "}
                       <span className="text-gray-500">{prediction}</span>
                     </li>
                   ))}

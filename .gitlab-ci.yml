@@ -1,44 +1,21 @@
 stages:
-  - build
-  - test
   - deploy
 
-variables:
-  DOCKER_DRIVER: overlay2
-  DOCKER_TLS_CERTDIR: "/certs"
-
-# Docker-in-Docker (dind) для работы с Docker Compose
-services:
-  - docker:19.03.12-dind
-
-# Docker image, используемый для выполнения команд
-image: docker:latest
-
-# Сборка контейнеров с помощью docker-compose
-build-job:
-  stage: build
-  tags:
-    - bolzhau
-  script:
-    - docker-compose -f docker-compose.yml build
-
-test-backend-job:
-  stage: test
-  tags:
-    - bolzhau
-  script:
-    - docker-compose -f docker-compose.yml run --rm fastapi pytest -s -v
-
-test-frontend-job:
-  stage: test
-  tags:
-    - bolzhau
-  script:
-    - docker-compose -f docker-compose.yml run --rm frontend npm test -s -v
-
-deploy-job:
+deploy:
   stage: deploy
-  tags:
-    - bolzhau
+  only:
+    - main
+  image: alpine:latest
+  before_script:
+    - apk add --no-cache openssh bash
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - chmod 700 ~/.ssh
+    - ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts
   script:
-    - docker-compose -f docker-compose.yml up -d
+    - ssh $SSH_USER@$SSH_HOST "
+        cd /home/dimash/Virtual_Bolzhau &&
+        git pull origin main &&
+        docker-compose down &&
+        docker-compose up -d --build
+      "
