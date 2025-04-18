@@ -181,13 +181,14 @@ const MainPage = () => {
                       className="text-black cursor-pointer hover:bg-gray-200"
                       onClick={() => handlePredictionSelect(prediction)}
                     >
-                      {textInput}{" "}
+                      {textInput.trim().split(/\s+/).slice(-3).join(" ")}{" "}
                       <span className="text-gray-500">{prediction}</span>
                     </li>
                   ))}
                 </ul>
               )}
             </div>
+
             <div className="flex items-center gap-2 mt-auto">
               <h4 className="text-xs text-gray-500">Модель:</h4>
               <select className="w-22 p-1 border rounded-md text-xs">

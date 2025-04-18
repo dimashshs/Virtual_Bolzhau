@@ -22,9 +22,9 @@ export default function AuthorsAndPartners() {
   ];
 
   const partners = [
-    { logo: "/images/images.jpg", name: "Company 1" },
-    { logo: "/images/Logo_astana_it_university.png", name: "Company 2" },
-    { logo: "/images/ministry.png", name: "Company 3" },
+    { logo: "/images/images.jpg", name: "Company 1", href: "https://govtec.kz/"},
+    { logo: "/images/Logo_astana_it_university.png", name: "Company 2", href: "https://astanait.edu.kz/" },
+    { logo: "/images/ministry.png", name: "Company 3", href: "https://www.gov.kz/memleket/entities/mdai/"},
   ];
 
   return (
