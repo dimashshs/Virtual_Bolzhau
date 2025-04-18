@@ -3,19 +3,19 @@ stages:
 
 deploy:
   stage: deploy
-  only:
-    - main
   image: alpine:latest
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
   before_script:
     - apk add --no-cache openssh bash
     - mkdir -p ~/.ssh
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    - chmod 700 ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
     - ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts
   script:
     - ssh $SSH_USER@$SSH_HOST "
         cd /home/dimash/Virtual_Bolzhau &&
         git pull origin main &&
-        docker-compose down &&
-        docker-compose up -d --build
+        docker compose down &&
+        docker compose up -d --build
       "
