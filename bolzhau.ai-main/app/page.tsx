@@ -199,7 +199,31 @@ const MainPage = () => {
             </div>
           </div>
 
-         
+          {/* Сөйлем */}
+          <div
+            className="flex flex-col bg-gray-100 p-4 rounded-lg shadow-md flex-1 min-w-[300px] max-w-md"
+            style={{ height: "30rem" }}
+          >
+            <h3 className="text-lg mb-2">
+              <b>Сөйлем</b>
+            </h3>
+            <div className="text-gray-400 mb-2 text-xs">
+              Сөйлемді толық аяқтау нұсқалары
+            </div>
+            <div className="flex justify-center h-full">
+              <h3 className="text-m text-gray-300 text-center italic">
+                Дамытулыда
+              </h3>
+            </div>
+            <div className="flex items-center gap-2 mt-auto">
+              <h4 className="text-xs text-gray-500">Модель:</h4>
+              <select className="w-22 p-1 border rounded-md text-xs">
+                <option value="model1">KazLLM</option>
+                <option value="model2">KazLLM 2</option>
+                <option value="model3">KazLLM 3</option>
+              </select>
+            </div>
+          </div>
         </div>
         {/* Блок с выбором модели и кнопкой загрузки */}
         {/* <div className="flex flex-col items-center mt-8 p-4 bg-gray-50 rounded-lg shadow-md w-full max-w-lg mx-auto">
