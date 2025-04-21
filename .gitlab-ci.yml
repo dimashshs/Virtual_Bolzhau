@@ -1,9 +1,14 @@
+image: docker:latest
+
+services:
+  - docker:dind
+
+variables:
+  DOCKER_TLS_CERTDIR: ""  # отключаем TLS, иначе будет ошибка подключения к Docker
+
 stages:
   - build
   - deploy
-
-variables:
-  DOCKER_TLS_CERTDIR: ""  # отключаем TLS для Docker-in-Docker
 
 before_script:
   - echo "Starting pipeline on $(hostname)"
