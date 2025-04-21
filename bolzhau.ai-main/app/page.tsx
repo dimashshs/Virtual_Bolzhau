@@ -71,6 +71,23 @@ const MainPage = () => {
     getPredictions(textInput + " " + prediction);
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Tab") {
+      event.preventDefault();
+  
+      if (predictionsBigram.length > 0) {
+        const firstPrediction = predictionsBigram[0];
+        const newText = textInput.endsWith(" ")
+          ? textInput + firstPrediction
+          : textInput + " " + firstPrediction;
+  
+        setTextInput(newText);
+        getPredictions(newText);
+      }
+    }
+  };
+  
+
   return (
     <div className="w-screen min-h-screen">
       <div className="absolute inset-0 w-full min-h-screen h-auto hero-header "></div>
@@ -82,6 +99,7 @@ const MainPage = () => {
             className="border rounded-full px-4 py-2 w-full text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={textInput}
             onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
           />
         </div>
 
