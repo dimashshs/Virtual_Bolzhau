@@ -1,13 +1,12 @@
 image: docker:latest
 
 services:
-  - docker:dind
+  - name: docker:19.03.12-dind
+    entrypoint: ["--host", "tcp://0.0.0.0:2375", "--host", "unix:///var/run/docker.sock"]
 
 variables:
-  DOCKER_TLS_CERTDIR: "/certs"  # Указываем путь к TLS сертификатам для Docker
-  DOCKER_HOST: tcp://docker:2375  # Прямое подключение через TCP
-  DOCKER_DRIVER: overlay2  # Указываем драйвер хранения Docker
-  DOCKER_CLI_EXPERIMENTAL: disabled  # Отключаем экспериментальные флаги
+  DOCKER_HOST: "tcp://docker:2375"
+  DOCKER_TLS_CERTDIR: "/certs"
 
 stages:
   - build
