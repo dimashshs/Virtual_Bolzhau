@@ -4,7 +4,10 @@ services:
   - docker:dind
 
 variables:
-  DOCKER_TLS_CERTDIR: ""  # отключаем TLS, иначе будет ошибка подключения к Docker
+  DOCKER_TLS_CERTDIR: "/certs"  # Указываем путь к TLS сертификатам для Docker
+  DOCKER_HOST: tcp://docker:2375  # Прямое подключение через TCP
+  DOCKER_DRIVER: overlay2  # Указываем драйвер хранения Docker
+  DOCKER_CLI_EXPERIMENTAL: disabled  # Отключаем экспериментальные флаги
 
 stages:
   - build
