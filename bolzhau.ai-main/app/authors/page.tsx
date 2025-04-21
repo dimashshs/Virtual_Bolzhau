@@ -1,4 +1,4 @@
-'use client';
+"use client";
 export default function AuthorsAndPartners() {
   const teamMembers = [
     {
@@ -9,8 +9,7 @@ export default function AuthorsAndPartners() {
     },
     {
       name: "Әбу Мариям Мұратқызы",
-      description:
-        "middle expert Центра поддержки цифрового правительства",
+      description: "middle expert Центра поддержки цифрового правительства",
       image: "/images/Maryiam.jpg",
     },
     {
@@ -22,9 +21,21 @@ export default function AuthorsAndPartners() {
   ];
 
   const partners = [
-    { logo: "/images/images.jpg", name: "Company 1", href: "https://govtec.kz/"},
-    { logo: "/images/Logo_astana_it_university.png", name: "Company 2", href: "https://astanait.edu.kz/" },
-    { logo: "/images/ministry.png", name: "Company 3", href: "https://www.gov.kz/memleket/entities/mdai/"},
+    {
+      logo: "/images/images.jpg",
+      name: "Company 1",
+      href: "https://govtec.kz/",
+    },
+    {
+      logo: "/images/Logo_astana_it_university.png",
+      name: "Company 2",
+      href: "https://astanait.edu.kz/",
+    },
+    {
+      logo: "/images/ministry.png",
+      name: "Company 3",
+      href: "https://www.gov.kz/memleket/entities/mdai/",
+    },
   ];
 
   return (
@@ -34,10 +45,13 @@ export default function AuthorsAndPartners() {
         <div className="text-center mb-12">
           <h1 className="text-3xl font-bold mb-4">Біздің серіктестер</h1>
         </div>
-        <div className="flex justify-center grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8 justify-center">
           {partners.map((partner, index) => (
-            <div
+            <a
               key={index}
+              href={partner.href}
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex justify-center items-center p-4 border rounded-lg shadow hover:shadow-lg transition duration-200 bg-white"
             >
               <img
@@ -45,7 +59,7 @@ export default function AuthorsAndPartners() {
                 alt={partner.name}
                 className="h-16 object-contain"
               />
-            </div>
+            </a>
           ))}
         </div>
       </section>
