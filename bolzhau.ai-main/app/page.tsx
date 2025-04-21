@@ -7,6 +7,7 @@ const MainPage = () => {
   const [predictionsBigram, setPredictionsBigram] = useState<string[]>([]);
   const [predictionsTrigram, setPredictionsTrigram] = useState<string[]>([]);
   const controllerRef = useRef<AbortController | null>(null);
+  const [combinedPredictions, setCombinedPredictions] = useState<string[]>([]);
 
   // Функция для получения предсказаний
   const getPredictions = async (text: string) => {
@@ -18,7 +19,7 @@ const MainPage = () => {
     controllerRef.current = controller;
 
     try {
-      const responses = await Promise.allSettled([
+      const [bigramRes, trigramRes] = await Promise.all([
         fetch(BIGRAM_ENDPOINT, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -33,16 +34,30 @@ const MainPage = () => {
         }),
       ]);
 
-      responses.forEach((response, index) => {
-        if (response.status === "fulfilled" && response.value.ok) {
-          response.value.json().then((data) => {
-            if (index === 0) setPredictionsBigram(data.predictions || []);
-            if (index === 1) setPredictionsTrigram(data.predictions || []);
-          });
-        } else if (response.status === "rejected") {
-          console.error(`Error in request ${index + 1}:`, response.reason);
+      let bigrams: string[] = [];
+      let trigrams: string[] = [];
+
+      if (bigramRes.ok) {
+        const data = await bigramRes.json();
+        bigrams = data.predictions || [];
+        setPredictionsBigram(bigrams);
+      }
+
+      if (trigramRes.ok) {
+        const data = await trigramRes.json();
+        trigrams = data.predictions || [];
+        setPredictionsTrigram(trigrams);
+      }
+
+      // Комбинация: text + bigram + trigram
+      const combined: string[] = [];
+      for (const b of bigrams) {
+        for (const t of trigrams) {
+          combined.push(`${text} ${b} ${t}`);
         }
-      });
+      }
+
+      setCombinedPredictions(combined);
     } catch (error) {
       if (error instanceof Error && error.name !== "AbortError") {
         console.error("Error fetching predictions:", error);
@@ -74,19 +89,18 @@ const MainPage = () => {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Tab") {
       event.preventDefault();
-  
+
       if (predictionsBigram.length > 0) {
         const firstPrediction = predictionsBigram[0];
         const newText = textInput.endsWith(" ")
           ? textInput + firstPrediction
           : textInput + " " + firstPrediction;
-  
+
         setTextInput(newText);
         getPredictions(newText);
       }
     }
   };
-  
 
   return (
     <div className="w-screen min-h-screen">
@@ -188,23 +202,23 @@ const MainPage = () => {
 
             <div className="flex justify-between gap-4">
               {/* Trigram (только если введено >=2 слов) */}
-              {textInput.trim().split(/\s+/).length > 1 && (
                 <ul
                   className="flex-1 border-r pr-2 max-h-80 overflow-y-auto"
                   id="scrollbar"
                 >
-                  {predictionsTrigram.map((prediction, index) => (
+                  {combinedPredictions.map((combo, index) => (
                     <li
                       key={index}
                       className="text-black cursor-pointer hover:bg-gray-200"
-                      onClick={() => handlePredictionSelect(prediction)}
+                      onClick={() => {
+                        setTextInput(combo);
+                        getPredictions(combo);
+                      }}
                     >
-                      {textInput.trim().split(/\s+/).slice(-2).join(" ")}{" "}
-                      <span className="text-gray-500">{prediction}</span>
+                      {combo}
                     </li>
                   ))}
                 </ul>
-              )}
             </div>
 
             <div className="flex items-center gap-2 mt-auto">
