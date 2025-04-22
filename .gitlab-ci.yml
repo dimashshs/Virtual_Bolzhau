@@ -1,28 +1,26 @@
-image: docker:latest
-
-services:
-  - docker:dind
-
-variables:
-  DOCKER_TLS_CERTDIR: ""  # отключаем TLS, иначе будет ошибка подключения к Docker
-
 stages:
   - build
   - deploy
 
-before_script:
-  - echo "Starting pipeline on $(hostname)"
-  - docker info
+variables:
+  DOCKER_HOST: tcp://docker:2375/
+  DOCKER_TLS_CERTDIR: ""
+
+services:
+  - docker:dind
 
 build:
   stage: build
+  image: docker:latest
   script:
-    - echo "🔧 Сборка контейнеров..."
-    - docker-compose -f docker-compose.yml build
+    - echo "🚀 Building Docker images..."
+    - docker compose -f docker-compose.prod.yml build
 
 deploy:
   stage: deploy
+  image: docker:latest
   script:
-    - echo "🚀 Перезапуск контейнеров..."
-    - docker-compose -f docker-compose.yml down
-    - docker-compose -f docker-compose.yml up -d
+    - echo "Stopping old containers..."
+    - docker compose -f docker-compose.prod.yml down
+    - echo "Starting new containers..."
+    - docker compose -f docker-compose.prod.yml up -d
